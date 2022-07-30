@@ -53,7 +53,10 @@ class _CreateAccountDesktopState extends State<CreateAccountTablet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: globalAppBar(context: context),
+      appBar: globalAppBar(
+        context: context,
+        onPressed: () => Navigator.pop(context),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
