@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weconnect_portal/feature/create_account/view/view_create_account.dart';
 import 'package:weconnect_portal/feature/forgot_password/view/view_forgot_password.dart';
 import 'package:weconnect_portal/global/widget/widget_global_text.dart';
 
@@ -33,7 +34,11 @@ Widget loginCreate({required BuildContext context}) {
         fontWeight: FontWeight.w300,
       ),
       TextButton(
-        onPressed: () {},
+        onPressed: () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (routeContext) => const CreateAccount(),
+          ),
+        ),
         child: globalText(
           text: 'Create',
           color: Theme.of(context).primaryColor,
