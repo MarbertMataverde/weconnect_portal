@@ -3,6 +3,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:weconnect_portal/feature/login/widget/widget_login_textbutton.dart';
 import 'package:weconnect_portal/feature/login/widget/widget_login_textformfield.dart';
 import 'package:weconnect_portal/feature/login/widget/widget_svg.dart';
+import 'package:weconnect_portal/global/widget/widget_global_sizedbox.dart';
 import 'package:weconnect_portal/global/widget/widget_global_text.dart';
 import 'package:weconnect_portal/global/widget/widget_global_textbutton.dart';
 
@@ -25,19 +26,20 @@ class _LoginPhoneState extends State<LoginPhone> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.1),
-        child: Center(
-          child: SingleChildScrollView(
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.020),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 svgAssetLogo(
                   assetPath: 'assets/app_icon/plain_light_logo.svg',
-                  width: MediaQuery.of(context).size.width * 0.2,
+                  width: MediaQuery.of(context).size.width * 0.1,
                 ),
+                sizedBox(),
                 SizedBox(
                   width: double.infinity,
                   child: Column(
@@ -45,13 +47,14 @@ class _LoginPhoneState extends State<LoginPhone> {
                     children: [
                       globalText(
                         text: 'Login your account.',
-                        textScaleFactor: 2,
+                        textScaleFactor: 1.5,
                         fontWeight: FontWeight.w600,
                       ),
                       globalText(
                         text: '"Nurturing Tommorow\'s Noblest"',
                         fontWeight: FontWeight.w100,
                       ),
+                      sizedBox(),
                       loginTextFormField(
                         context: context,
                         label: 'Email',
@@ -61,6 +64,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                           color: Theme.of(context).textTheme.bodyMedium!.color,
                         ),
                       ),
+                      sizedBox(),
                       loginTextFormField(
                         context: context,
                         label: 'Password',
@@ -82,6 +86,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                         ),
                       ),
                       loginForgotPassword(context: context),
+                      sizedBox(),
                       globalTextButton(
                         context: context,
                         text: 'Login',
@@ -89,6 +94,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                     ],
                   ),
                 ),
+                sizedBox(),
                 loginCreate(context: context),
               ],
             ),
