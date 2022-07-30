@@ -1,16 +1,5 @@
-# weconnect_portal
 
-A new Flutter project.
+![WeConnect Animated Logo](https://github.com/MarbertMataverde/WeConnect/blob/main/assets/gifs/readme/weconnect_readme.gif)
+<h1 align="center">WeConnect</h1>
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+With WeConnect, you can access all of your information from one place. Whether you're a student, faculty member, or staff, you can get anything from your grades to class schedules and read the latest news instantly. You'll never be out of the loop with WeConnect!
