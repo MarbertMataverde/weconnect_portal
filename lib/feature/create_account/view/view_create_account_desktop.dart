@@ -51,7 +51,6 @@ class _CreateAccountDesktopState extends State<CreateAccountDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQueryWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1),

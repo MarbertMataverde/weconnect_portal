@@ -52,7 +52,6 @@ class _CreateAccountDesktopState extends State<CreateAccountPhone> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQueryWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: globalAppBar(context: context),
       body: SingleChildScrollView(
