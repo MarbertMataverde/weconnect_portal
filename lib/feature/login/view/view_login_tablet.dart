@@ -3,6 +3,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:weconnect_portal/feature/login/widget/widget_login_textbutton.dart';
 import 'package:weconnect_portal/feature/login/widget/widget_login_textformfield.dart';
 import 'package:weconnect_portal/feature/login/widget/widget_svg.dart';
+import 'package:weconnect_portal/global/widget/widget_global_sizedbox.dart';
 import 'package:weconnect_portal/global/widget/widget_global_text.dart';
 import 'package:weconnect_portal/global/widget/widget_global_textbutton.dart';
 
@@ -33,8 +34,9 @@ class _LoginTabletState extends State<LoginTablet> {
             children: [
               svgAssetLogo(
                 assetPath: 'assets/app_icon/plain_light_logo.svg',
-                width: MediaQuery.of(context).size.width * 0.12,
+                width: MediaQuery.of(context).size.width * 0.1,
               ),
+              sizedBox(),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: Column(
@@ -49,6 +51,7 @@ class _LoginTabletState extends State<LoginTablet> {
                       text: '"Nurturing Tommorow\'s Noblest"',
                       fontWeight: FontWeight.w100,
                     ),
+                    sizedBox(),
                     loginTextFormField(
                       context: context,
                       label: 'Email',
@@ -58,6 +61,7 @@ class _LoginTabletState extends State<LoginTablet> {
                         color: Theme.of(context).textTheme.bodyMedium!.color,
                       ),
                     ),
+                    sizedBox(),
                     loginTextFormField(
                       context: context,
                       label: 'Password',
@@ -79,6 +83,7 @@ class _LoginTabletState extends State<LoginTablet> {
                       ),
                     ),
                     loginForgotPassword(context: context),
+                    sizedBox(),
                     globalTextButton(
                       context: context,
                       text: 'Login',
@@ -87,6 +92,7 @@ class _LoginTabletState extends State<LoginTablet> {
                   ],
                 ),
               ),
+              sizedBox(),
               loginCreate(context: context),
             ],
           ),
