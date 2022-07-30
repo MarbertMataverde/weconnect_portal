@@ -12,7 +12,10 @@ class ForgotPasswordTablet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: globalAppBar(context: context),
+      appBar: globalAppBar(
+        context: context,
+        onPressed: () => Navigator.pop(context),
+      ),
       body: Center(
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.5,
