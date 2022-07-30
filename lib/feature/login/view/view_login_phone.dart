@@ -30,14 +30,14 @@ class _LoginPhoneState extends State<LoginPhone> {
         child: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.020),
+                horizontal: MediaQuery.of(context).size.width * 0.1),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 svgAssetLogo(
                   assetPath: 'assets/app_icon/plain_light_logo.svg',
-                  width: MediaQuery.of(context).size.width * 0.1,
+                  width: MediaQuery.of(context).size.width * 0.2,
                 ),
                 sizedBox(),
                 SizedBox(
@@ -47,7 +47,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                     children: [
                       globalText(
                         text: 'Login your account.',
-                        textScaleFactor: 1.5,
+                        textScaleFactor: 1.8,
                         fontWeight: FontWeight.w600,
                       ),
                       globalText(
