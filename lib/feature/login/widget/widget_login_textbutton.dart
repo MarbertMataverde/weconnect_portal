@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weconnect_portal/feature/forgot_password/view/view_forgot_password.dart';
 import 'package:weconnect_portal/global/widget/widget_global_text.dart';
 
 Widget loginForgotPassword({
