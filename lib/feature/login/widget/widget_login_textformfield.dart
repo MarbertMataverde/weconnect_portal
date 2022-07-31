@@ -9,6 +9,7 @@ Widget loginTextFormField({
   bool? isObscure,
   Widget? prefixIcon,
   Widget? passwordVisibilityIconButton,
+  String? Function(String?)? validator,
 }) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -21,6 +22,7 @@ Widget loginTextFormField({
         ),
       ),
       TextFormField(
+        validator: validator,
         controller: controller,
         obscureText: isObscure ?? false,
         keyboardType: textInputType ?? TextInputType.text,
@@ -31,6 +33,7 @@ Widget loginTextFormField({
         decoration: InputDecoration(
           filled: true,
           fillColor: const Color(0xff323645),
+          errorStyle: TextStyle(color: Theme.of(context).errorColor),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(2),
             borderSide: BorderSide.none,
