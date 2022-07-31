@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:weconnect_portal/feature/authentication/model/model_sign_in.dart';
 import 'package:weconnect_portal/feature/login/widget/widget_login_textbutton.dart';
 import 'package:weconnect_portal/feature/login/widget/widget_login_textformfield.dart';
 import 'package:weconnect_portal/feature/login/widget/widget_svg.dart';
@@ -17,10 +18,24 @@ class LoginTablet extends StatefulWidget {
 }
 
 class _LoginTabletState extends State<LoginTablet> {
+  final _validationKey = GlobalKey<FormState>();
+
+  late TextEditingController emailTextController;
+  late TextEditingController passwordTextController;
+
   @override
   void initState() {
     super.initState();
+    emailTextController = TextEditingController();
+    passwordTextController = TextEditingController();
     _passwordVisible = false;
+  }
+
+  @override
+  void dispose() {
+    emailTextController.dispose();
+    passwordTextController.dispose();
+    super.dispose();
   }
 
   @override
@@ -52,34 +67,66 @@ class _LoginTabletState extends State<LoginTablet> {
                       fontWeight: FontWeight.w100,
                     ),
                     sizedBox(),
-                    loginTextFormField(
-                      context: context,
-                      label: 'Email',
-                      textInputType: TextInputType.emailAddress,
-                      prefixIcon: Icon(
-                        Iconsax.sms,
-                        color: Theme.of(context).textTheme.bodyMedium!.color,
-                      ),
-                    ),
                     sizedBox(),
-                    loginTextFormField(
-                      context: context,
-                      label: 'Password',
-                      textInputType: TextInputType.visiblePassword,
-                      isObscure: !_passwordVisible,
-                      prefixIcon: Icon(
-                        Iconsax.password_check,
-                        color: Theme.of(context).textTheme.bodyMedium!.color,
-                      ),
-                      passwordVisibilityIconButton: IconButton(
-                        splashRadius: 0.1,
-                        color: Theme.of(context).textTheme.bodyMedium!.color,
-                        onPressed: () => setState(
-                          () => _passwordVisible = !_passwordVisible,
-                        ),
-                        icon: Icon(
-                          _passwordVisible ? Iconsax.eye : Iconsax.eye_slash,
-                        ),
+                    Form(
+                      key: _validationKey,
+                      child: Column(
+                        children: [
+                          loginTextFormField(
+                            controller: emailTextController,
+                            context: context,
+                            label: 'Email',
+                            textInputType: TextInputType.emailAddress,
+                            prefixIcon: Icon(
+                              Iconsax.sms,
+                              color:
+                                  Theme.of(context).textTheme.bodyMedium!.color,
+                            ),
+                            validator: (value) {
+                              bool isEmailValid = RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value!);
+                              if (value.isEmpty) {
+                                return 'Please enter email';
+                              }
+                              if (!isEmailValid) {
+                                return 'Invalid email';
+                              }
+                              return null;
+                            },
+                          ),
+                          loginTextFormField(
+                            controller: passwordTextController,
+                            context: context,
+                            label: 'Password',
+                            textInputType: TextInputType.visiblePassword,
+                            isObscure: !_passwordVisible,
+                            prefixIcon: Icon(
+                              Iconsax.password_check,
+                              color:
+                                  Theme.of(context).textTheme.bodyMedium!.color,
+                            ),
+                            passwordVisibilityIconButton: IconButton(
+                              splashRadius: 0.1,
+                              color:
+                                  Theme.of(context).textTheme.bodyMedium!.color,
+                              onPressed: () => setState(
+                                () => _passwordVisible = !_passwordVisible,
+                              ),
+                              icon: Icon(
+                                _passwordVisible
+                                    ? Iconsax.eye
+                                    : Iconsax.eye_slash,
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please enter password';
+                              }
+                              return null;
+                            },
+                          ),
+                        ],
                       ),
                     ),
                     loginForgotPassword(context: context),
@@ -88,6 +135,16 @@ class _LoginTabletState extends State<LoginTablet> {
                       context: context,
                       text: 'Login',
                       textScaleFactor: 1.2,
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        if (_validationKey.currentState!.validate() == true) {
+                          signInWithEmailAndPassword(
+                            context: context,
+                            email: emailTextController.text.trim(),
+                            password: passwordTextController.text.trim(),
+                          );
+                        }
+                      },
                     ),
                   ],
                 ),
