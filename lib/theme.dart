@@ -41,6 +41,7 @@ final darkThemeData = ThemeData(
   scaffoldBackgroundColor: const Color(0xff282A37),
   iconTheme: const IconThemeData(color: Colors.white),
   cardColor: const Color(0xff0F2346),
+  errorColor: const Color(0xff338C8C),
   cardTheme: const CardTheme(
     elevation: 1,
     color: Color(0xff0F2346),
