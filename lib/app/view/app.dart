@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:weconnect_portal/feature/login/view/view_login.dart';
 import 'package:weconnect_portal/firebase_options.dart';
 import 'package:weconnect_portal/theme.dart';
 
-void main() async {
+Future<void> main() async {
   /// Firebase Initialization
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -24,7 +25,20 @@ class App extends StatelessWidget {
       theme: lightThemeData,
       themeMode: ThemeMode.dark,
       darkTheme: darkThemeData,
-      home: const Login(),
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Container(); // loading
+          } else if (snapshot.hasError) {
+            return Container(); // restart the app message
+          } else if (snapshot.hasData) {
+            return Container(); // home screen
+          } else {
+            return const Login();
+          }
+        },
+      ),
     );
   }
 }
