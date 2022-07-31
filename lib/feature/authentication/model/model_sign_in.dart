@@ -16,17 +16,20 @@ Future<void> signInWithEmailAndPassword({
     if (e.code == 'user-not-found') {
       globalDialog(
         context: context,
-        title: 'User not found',
-        content: e.message.toString(),
+        title: 'Oops',
+        content: 'We couldn\'t find the email and password you entered.',
       );
     } else if (e.code == 'wrong-password') {
       globalDialog(
         context: context,
-        title: 'Wrong password',
-        content: e.message.toString(),
+        title: 'Oops',
+        content: 'Wrong password, make sure you entered a correct password.',
       );
-    } else {
-      globalDialog(context: context, content: 'Please restart the app');
     }
+  } catch (e) {
+    globalDialog(
+      context: context,
+      content: e.toString(),
+    );
   }
 }
