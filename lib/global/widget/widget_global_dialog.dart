@@ -22,12 +22,15 @@ Future<dynamic> globalDialog({
     builder: (BuildContext context) {
       return AlertDialog(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        actionsAlignment: MainAxisAlignment.center,
         title: globalText(
           text: title ?? 'Something went wrong',
+          textAlign: TextAlign.center,
           color: Theme.of(context).textTheme.bodyMedium!.color,
         ),
         content: globalText(
           text: content,
+          textAlign: TextAlign.center,
           color: Theme.of(context).textTheme.bodyMedium!.color,
         ),
         actions: [
@@ -35,7 +38,7 @@ Future<dynamic> globalDialog({
             style:
                 TextButton.styleFrom(primary: Theme.of(context).primaryColor),
             onPressed: onPressed ?? (() => Navigator.pop(context)),
-            child: Text(actionText ?? 'Close'),
+            child: Text(actionText ?? 'Ok'),
           ),
         ],
       );
