@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weconnect_portal/global/widget/widget_global_text.dart';
 
 Future<dynamic> globalDialog({
   required BuildContext context,
@@ -21,17 +22,13 @@ Future<dynamic> globalDialog({
     builder: (BuildContext context) {
       return AlertDialog(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        title: Text(
-          title ?? 'Something went wrong',
-          style: TextStyle(
-            color: Theme.of(context).textTheme.bodyMedium!.color,
-          ),
+        title: globalText(
+          text: title ?? 'Something went wrong',
+          color: Theme.of(context).textTheme.bodyMedium!.color,
         ),
-        content: Text(
-          content,
-          style: TextStyle(
-            color: Theme.of(context).textTheme.bodyMedium!.color,
-          ),
+        content: globalText(
+          text: content,
+          color: Theme.of(context).textTheme.bodyMedium!.color,
         ),
         actions: [
           TextButton(
