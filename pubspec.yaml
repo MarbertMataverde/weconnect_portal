@@ -17,6 +17,7 @@ dependencies:
   iconsax: ^0.0.8
   lottie: ^1.4.0
   flutter_svg: ^1.1.1+1
+  firebase_auth: ^3.6.1
 
 dev_dependencies:
   flutter_test:
