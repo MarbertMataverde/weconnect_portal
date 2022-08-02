@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-Widget globalTextFormField({
-  required BuildContext context,
-  double? textScaleFactor,
-  TextInputType? textInputType,
-  TextEditingController? controller,
-  bool? isObscure,
-  Widget? prefixIcon,
-  Widget? passwordVisibilityIconButton,
-  String? hint,
-  String? Function(String?)? validator,
-}) {
+Widget globalTextFormField(
+    {required BuildContext context,
+    double? textScaleFactor,
+    TextInputType? textInputType,
+    TextEditingController? controller,
+    bool? isObscure,
+    Widget? prefixIcon,
+    Widget? passwordVisibilityIconButton,
+    String? hint,
+    String? Function(String?)? validator,
+    List<TextInputFormatter>? inputFormater}) {
   return TextFormField(
     validator: validator,
     controller: controller,
     obscureText: isObscure ?? false,
     keyboardType: textInputType ?? TextInputType.text,
+    inputFormatters: inputFormater,
     cursorColor: Theme.of(context).textTheme.bodyMedium!.color,
     style: TextStyle(
       color: Theme.of(context).textTheme.bodyMedium!.color,
