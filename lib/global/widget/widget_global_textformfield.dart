@@ -9,8 +9,10 @@ Widget globalTextFormField({
   Widget? prefixIcon,
   Widget? passwordVisibilityIconButton,
   String? hint,
+  String? Function(String?)? validator,
 }) {
   return TextFormField(
+    validator: validator,
     controller: controller,
     obscureText: isObscure ?? false,
     keyboardType: textInputType ?? TextInputType.text,
@@ -24,6 +26,7 @@ Widget globalTextFormField({
           color: Theme.of(context).textTheme.bodyMedium!.color?.withAlpha(150)),
       filled: true,
       fillColor: const Color(0xff323645),
+      errorStyle: TextStyle(color: Theme.of(context).errorColor),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(2),
         borderSide: BorderSide.none,
