@@ -74,3 +74,26 @@ void Function()? accountInformationStepContinue({
     }
   };
 }
+
+void Function()? loginInformationStepContinue({
+  required BuildContext context,
+  required GlobalKey<FormState> loginInformationValidationKey,
+  required String password,
+  required String confirmPassword,
+  required void Function() nextStep,
+}) {
+  return () {
+    FocusScope.of(context).unfocus();
+    if (loginInformationValidationKey.currentState!.validate() == true) {
+      if (password == confirmPassword) {
+        nextStep();
+      } else {
+        globalDialog(
+          context: context,
+          title: 'Password not match',
+          content: 'You entered two different password.',
+        );
+      }
+    }
+  };
+}
