@@ -99,6 +99,7 @@ class _LoginPhoneState extends State<LoginPhone> {
                                 return null;
                               },
                             ),
+                            sizedBox(),
                             loginTextFormField(
                               controller: passwordTextController,
                               context: context,
@@ -137,7 +138,6 @@ class _LoginPhoneState extends State<LoginPhone> {
                           ],
                         ),
                       ),
-                      sizedBox(),
                       loginForgotPassword(context: context),
                       sizedBox(),
                       globalTextButton(
