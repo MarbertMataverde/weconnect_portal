@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
-import 'package:weconnect_portal/feature/authentication/model/model_sign_in.dart';
+import 'package:weconnect_portal/feature/authentication/authentication_sign_in.dart';
 import 'package:weconnect_portal/feature/login/widget/widget_login_textbutton.dart';
 import 'package:weconnect_portal/feature/login/widget/widget_login_textformfield.dart';
 import 'package:weconnect_portal/feature/login/widget/widget_svg.dart';
