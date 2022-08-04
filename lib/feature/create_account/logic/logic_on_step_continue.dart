@@ -15,20 +15,17 @@ void Function()? personalInformationStepContinue({
       if (genderSelectedItem == null && birthDate == null) {
         globalDialog(
           context: context,
-          title: 'Empty Field',
-          content: 'Gender & Birthdate can\'t be empty.',
+          content: 'Gender & Birthdate can\'t be empty',
         );
       } else if (genderSelectedItem == null) {
         globalDialog(
           context: context,
-          title: 'Gender Missing',
-          content: 'Gender can\'t be empty.',
+          content: 'Gender can\'t be empty',
         );
       } else if (birthDate == null) {
         globalDialog(
           context: context,
-          title: 'Birthdate Missing',
-          content: 'Birthdate can\'t be empty.',
+          content: 'Birthdate can\'t be empty',
         );
       } else {
         nextStep();
@@ -52,7 +49,6 @@ void Function()? accountInformationStepContinue({
         if (selectedCollege == null) {
           globalDialog(
             context: context,
-            title: 'College',
             content: 'College can\'t be empty',
           );
         } else {
@@ -66,8 +62,7 @@ void Function()? accountInformationStepContinue({
     } else if (accountTypeSelectedItem == null) {
       globalDialog(
         context: context,
-        title: 'Account Type',
-        content: 'Please select account type for this account.',
+        content: 'Please select account type for this account',
       );
     } else {
       nextStep();
@@ -90,8 +85,7 @@ void Function()? loginInformationStepContinue({
       } else {
         globalDialog(
           context: context,
-          title: 'Password not match',
-          content: 'You entered two different password.',
+          content: 'You entered two different password',
         );
       }
     }
