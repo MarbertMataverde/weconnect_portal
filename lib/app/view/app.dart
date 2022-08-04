@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:weconnect_portal/feature/authentication/authentication_sign_out.dart';
 import 'package:weconnect_portal/feature/login/view/view_login.dart';
 import 'package:weconnect_portal/firebase_options.dart';
+import 'package:weconnect_portal/global/widget/widget_global_textbutton.dart';
 import 'package:weconnect_portal/theme.dart';
 
 Future<void> main() async {
@@ -29,15 +31,52 @@ class App extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Container(); // loading
+            return const Loading(); // loading
           } else if (snapshot.hasError) {
             return Container(); // restart the app message
           } else if (snapshot.hasData) {
-            return Container(); // home screen
+            return const HomeScreen(); // home screen
           } else {
             return const Login();
           }
         },
+      ),
+    );
+  }
+}
+
+class Loading extends StatelessWidget {
+  const Loading({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(
+          color: Theme.of(context).primaryColor,
+        ),
+      ),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text('H O M E  P A G E'),
+          globalTextButton(
+            context: context,
+            text: 'Logout',
+            onPressed: () => signOut(context: context),
+          )
+        ],
       ),
     );
   }
