@@ -48,10 +48,10 @@ class CreateAccountPhone extends StatefulWidget {
   const CreateAccountPhone({Key? key}) : super(key: key);
 
   @override
-  State<CreateAccountPhone> createState() => _CreateAccountDesktopState();
+  State<CreateAccountPhone> createState() => _CreateAccountPhoneState();
 }
 
-class _CreateAccountDesktopState extends State<CreateAccountPhone> {
+class _CreateAccountPhoneState extends State<CreateAccountPhone> {
   final GlobalKey<FormState> _personalInformationValidationKey =
       GlobalKey<FormState>();
 

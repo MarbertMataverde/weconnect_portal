@@ -1,7 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:weconnect_portal/feature/create_account/data/data_check_access_code.dart';
+import 'package:weconnect_portal/feature/create_account/data/data_create_user.dart';
+import 'package:weconnect_portal/feature/create_account/logic/logic_on_step_continue.dart';
 import 'package:weconnect_portal/feature/create_account/widget/widget_controllerbuilder.dart';
 import 'package:weconnect_portal/global/widget/widget_global_appbar.dart';
+import 'package:weconnect_portal/global/widget/widget_global_dialog.dart';
 import 'package:weconnect_portal/global/widget/widget_global_dropdownbuttonformfield.dart';
 import 'package:weconnect_portal/global/widget/widget_global_sizedbox.dart';
 import 'package:weconnect_portal/global/widget/widget_global_text.dart';
@@ -12,6 +19,10 @@ int _currentStep = 0;
 late bool _isPasswordVisible;
 
 bool? _isSubmitEnabled = false;
+
+bool _isCheckingAccessCode = false;
+
+bool _isCreatingAccount = false;
 
 /// List of college dropdown menu items
 List<String> _colleges = ['COA', 'COB', 'CCS'];
@@ -25,29 +36,108 @@ List<String> _genders = ['Male', 'Female', 'Others'];
 /// Current [_gender] selected item
 String? _genderSelectedItem;
 
-DateTime _birthDate = (DateTime(2000, 01, 17));
+DateTime? _birthDate;
 
 /// List of account type
-List<String> _accountTypes = [
-  'Account Type: Student',
-  'Account Type: Professor'
-];
+List<String> _accountTypes = ['Student', 'Professor'];
 
 /// Current [_accountTypes] selected item is Student
-String? _accountTypeSelectedItem = 'Account Type: Student';
+String? _accountTypeSelectedItem;
 
 class CreateAccountTablet extends StatefulWidget {
   const CreateAccountTablet({Key? key}) : super(key: key);
 
   @override
-  State<CreateAccountTablet> createState() => _CreateAccountDesktopState();
+  State<CreateAccountTablet> createState() => _CreateAccountTabletState();
 }
 
-class _CreateAccountDesktopState extends State<CreateAccountTablet> {
+class _CreateAccountTabletState extends State<CreateAccountTablet> {
+  final GlobalKey<FormState> _personalInformationValidationKey =
+      GlobalKey<FormState>();
+
+  final GlobalKey<FormState> _accountInformationValidationKey =
+      GlobalKey<FormState>();
+
+  final GlobalKey<FormState> _loginInformationValidationKey =
+      GlobalKey<FormState>();
+
+  final GlobalKey<FormState> _accessCodeValidationKey = GlobalKey<FormState>();
+
+  // Personal Information
+  late TextEditingController firstNameController;
+  late TextEditingController middleNameController;
+  late TextEditingController lastNameController;
+  late TextEditingController addressController;
+  late TextEditingController birthDateController;
+
+  // Account Information
+  late TextEditingController accountTypeController;
+  // Student Type
+  late TextEditingController studentNumberController;
+  late TextEditingController collegeController;
+  // Professor Type Controller
+  late TextEditingController employeeNumberController;
+
+  // Login Information
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+  late TextEditingController confirmPasswordController;
+
+  // Access Code Controller
+  late TextEditingController accessCodeController;
   @override
   void initState() {
     super.initState();
     _isPasswordVisible = false;
+
+    // Personal Information
+    firstNameController = TextEditingController();
+    middleNameController = TextEditingController();
+    lastNameController = TextEditingController();
+    addressController = TextEditingController();
+    birthDateController = TextEditingController();
+
+    // Account Information
+    accountTypeController = TextEditingController();
+    // Student Type Controller
+    studentNumberController = TextEditingController();
+    collegeController = TextEditingController();
+    // Professor Type
+    employeeNumberController = TextEditingController();
+
+    // Login Information
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+    confirmPasswordController = TextEditingController();
+
+    // Access Code
+    accessCodeController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    firstNameController.dispose();
+    middleNameController.dispose();
+    lastNameController.dispose();
+    addressController.dispose();
+    birthDateController.dispose();
+    accountTypeController.dispose();
+    studentNumberController.dispose();
+    collegeController.dispose();
+    employeeNumberController.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    accessCodeController.dispose();
+    super.dispose();
+  }
+
+  void Function() nextStep() {
+    return () {
+      if (_currentStep != 3) {
+        setState(() => _currentStep++);
+      }
+    };
   }
 
   @override
@@ -62,36 +152,91 @@ class _CreateAccountDesktopState extends State<CreateAccountTablet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.010),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: globalText(
                 text: 'Set up your WeConnect account',
-                textScaleFactor: 1.7,
+                textScaleFactor: 1.2,
                 fontWeight: FontWeight.w600,
               ),
             ),
             Stepper(
+              physics: const ClampingScrollPhysics(),
               currentStep: _currentStep,
-              onStepContinue: () {
-                if (_currentStep != 3) {
-                  setState(() => _currentStep++);
-                }
-              },
+              onStepContinue: _currentStep == 0
+                  //Personal Information
+                  ? personalInformationStepContinue(
+                      context: context,
+                      birthDate: _birthDate,
+                      currentStep: _currentStep,
+                      genderSelectedItem: _genderSelectedItem,
+                      personalInformationValidationKey:
+                          _personalInformationValidationKey,
+                      nextStep: nextStep(),
+                    )
+                  : _currentStep == 1
+                      // Account Information Step
+                      ? accountInformationStepContinue(
+                          context: context,
+                          accountTypeSelectedItem: _accountTypeSelectedItem,
+                          accountInformationValidationKey:
+                              _accountInformationValidationKey,
+                          selectedCollege: _collegeSelectedItem,
+                          nextStep: nextStep(),
+                        )
+                      : _currentStep == 2
+                          ? loginInformationStepContinue(
+                              context: context,
+                              loginInformationValidationKey:
+                                  _loginInformationValidationKey,
+                              password: passwordController.text,
+                              confirmPassword: confirmPasswordController.text,
+                              nextStep: nextStep(),
+                            )
+                          : null,
               onStepCancel: () {
                 if (_currentStep != 0) {
                   setState(() => _currentStep--);
                 }
               },
-              onStepTapped: (step) {
-                setState(() => _currentStep = step);
-              },
+              onStepTapped: null,
               controlsBuilder: (context, details) {
-                return buildControlsBuilder(
-                  context: context,
-                  details: details,
-                  onSubmit: () {},
-                  enableSubmitButton: _isSubmitEnabled,
-                );
+                return _isCreatingAccount
+                    ? SpinKitCircle(
+                        color: Theme.of(context).primaryColor,
+                        size: 34,
+                      )
+                    : buildControlsBuilder(
+                        context: context,
+                        details: details,
+                        onSubmit: () async {
+                          FocusScope.of(context).unfocus();
+                          setState(() {
+                            _isCreatingAccount = true;
+                          });
+                          await createAccountWithEmailAndPassword(
+                            context: context,
+                            firstName: firstNameController.text,
+                            middleName: middleNameController.text,
+                            lastName: lastNameController.text,
+                            address: addressController.text,
+                            gender: _genderSelectedItem as String,
+                            birthDate:
+                                Timestamp.fromDate(_birthDate as DateTime),
+                            accountType:
+                                _accountTypeSelectedItem!.toLowerCase(),
+                            college: _collegeSelectedItem,
+                            studentNumber: studentNumberController.text,
+                            employeeNumber: employeeNumberController.text,
+                            email: emailController.text,
+                            password: passwordController.text,
+                            accessCode: accessCodeController.text,
+                          );
+                          setState(() {
+                            _isCreatingAccount = false;
+                          });
+                        },
+                        enableSubmitButton: _isSubmitEnabled,
+                      );
               },
               steps: <Step>[
                 Step(
@@ -100,32 +245,59 @@ class _CreateAccountDesktopState extends State<CreateAccountTablet> {
                   content: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        children: [
-                          globalTextFormField(
-                              context: context, hint: 'First Name'),
-                          sizedBox(),
-                          globalTextFormField(
-                              context: context, hint: 'Middle Name'),
-                          sizedBox(),
-                          globalTextFormField(
-                              context: context, hint: 'Last Name'),
-                          sizedBox(),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            flex: 4,
-                            child: globalTextFormField(
+                      Form(
+                        key: _personalInformationValidationKey,
+                        child: Column(
+                          children: [
+                            globalTextFormField(
+                              controller: firstNameController,
+                              context: context,
+                              hint: 'First Name',
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Required';
+                                }
+                                return null;
+                              },
+                            ),
+                            sizedBox(),
+                            globalTextFormField(
+                              controller: middleNameController,
+                              context: context,
+                              hint: 'Middle Name',
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Required';
+                                }
+                                return null;
+                              },
+                            ),
+                            sizedBox(),
+                            globalTextFormField(
+                              controller: lastNameController,
+                              context: context,
+                              hint: 'Last Name',
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Required';
+                                }
+                                return null;
+                              },
+                            ),
+                            sizedBox(),
+                            globalTextFormField(
+                              controller: addressController,
                               context: context,
                               hint: 'Adress',
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Required';
+                                }
+                                return null;
+                              },
                             ),
-                          ),
-                          sizedBox(width: 10, height: 0),
-                          Expanded(
-                            flex: 1,
-                            child: globalDropdownButtonFormField(
+                            sizedBox(),
+                            globalDropdownButtonFormField(
                               context: context,
                               hintText: 'Gender',
                               value: _genderSelectedItem,
@@ -137,17 +309,18 @@ class _CreateAccountDesktopState extends State<CreateAccountTablet> {
                                     ),
                                   )
                                   .toList(),
-                              onChange: (gender) =>
-                                  setState(() => _genderSelectedItem = gender),
+                              onChange: (gender) => setState(
+                                () => _genderSelectedItem = gender,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       sizedBox(),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            flex: 4,
                             child: Container(
                               height: 50,
                               decoration: BoxDecoration(
@@ -155,30 +328,32 @@ class _CreateAccountDesktopState extends State<CreateAccountTablet> {
                                 borderRadius: BorderRadius.circular(2),
                               ),
                               child: Center(
-                                child: Text(
-                                  'Birthdate:  ${_birthDate.month}-${_birthDate.day}-${_birthDate.year}',
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    _birthDate == null
+                                        ? 'Select Birth Date'
+                                        : 'Birthdate:  ${_birthDate!.month}-${_birthDate!.day}-${_birthDate!.year}',
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: IconButton(
-                              splashRadius: 24,
-                              icon: const Icon(Iconsax.calendar_1),
-                              onPressed: () async {
-                                DateTime? newBirthDate = await showDatePicker(
-                                  helpText: 'Birthdate',
-                                  context: context,
-                                  initialDate: _birthDate,
-                                  firstDate: DateTime(1940),
-                                  lastDate: DateTime(2040),
-                                );
+                          IconButton(
+                            splashRadius: 24,
+                            icon: const Icon(Iconsax.calendar_1),
+                            onPressed: () async {
+                              DateTime? newBirthDate = await showDatePicker(
+                                helpText: 'Birthdate',
+                                context: context,
+                                initialDate: DateTime(2000, 01, 01),
+                                firstDate: DateTime(1940),
+                                lastDate: DateTime(2040),
+                              );
 
-                                if (newBirthDate == null) return;
-                                setState(() => _birthDate = newBirthDate);
-                              },
-                            ),
+                              if (newBirthDate == null) return;
+                              setState(() => _birthDate = newBirthDate);
+                            },
                           ),
                         ],
                       ),
@@ -195,6 +370,7 @@ class _CreateAccountDesktopState extends State<CreateAccountTablet> {
                       globalDropdownButtonFormField(
                         context: context,
                         value: _accountTypeSelectedItem,
+                        hintText: 'Select Account Type',
                         items: _accountTypes
                             .map(
                               (accountType) => DropdownMenuItem(
@@ -204,118 +380,162 @@ class _CreateAccountDesktopState extends State<CreateAccountTablet> {
                             )
                             .toList(),
                         onChange: (accountType) => setState(
-                            () => _accountTypeSelectedItem = accountType),
+                          () => _accountTypeSelectedItem = accountType,
+                        ),
                       ),
                       sizedBox(),
-                      Visibility(
-                        visible:
-                            _accountTypeSelectedItem == 'Account Type: Student',
-                        replacement: Column(
-                          children: [
-                            globalTextFormField(
-                                context: context, hint: 'Employee Number'),
-                            sizedBox(),
-                          ],
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: globalTextFormField(
-                                  context: context, hint: 'Student Number'),
-                            ),
-                            sizedBox(width: 10, height: 0),
-                            Expanded(
-                              child: globalDropdownButtonFormField(
-                                context: context,
-                                hintText: 'College',
-                                value: _collegeSelectedItem,
-                                items: _colleges
-                                    .map(
-                                      (college) => DropdownMenuItem(
-                                        value: college,
-                                        child: globalText(text: college),
-                                      ),
-                                    )
-                                    .toList(),
-                                onChange: (college) => setState(
-                                    () => _collegeSelectedItem = college),
+                      _accountTypeSelectedItem != null
+                          ? Form(
+                              key: _accountInformationValidationKey,
+                              child: Visibility(
+                                visible: _accountTypeSelectedItem == 'Student',
+                                replacement: Column(
+                                  children: [
+                                    globalTextFormField(
+                                      controller: employeeNumberController,
+                                      context: context,
+                                      hint: 'Employee Number',
+                                      inputFormater: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
+                                      ],
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return 'Required';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    sizedBox(),
+                                  ],
+                                ),
+                                child: Column(
+                                  children: [
+                                    globalTextFormField(
+                                      controller: studentNumberController,
+                                      context: context,
+                                      hint: 'Student Number',
+                                      inputFormater: <TextInputFormatter>[
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9]')),
+                                      ],
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return 'Required';
+                                        }
+                                        return null;
+                                      },
+                                    ),
+                                    sizedBox(),
+                                    globalDropdownButtonFormField(
+                                      context: context,
+                                      hintText: 'College',
+                                      value: _collegeSelectedItem,
+                                      items: _colleges
+                                          .map(
+                                            (college) => DropdownMenuItem(
+                                              value: college,
+                                              child: globalText(text: college),
+                                            ),
+                                          )
+                                          .toList(),
+                                      onChange: (college) => setState(
+                                          () => _collegeSelectedItem = college),
+                                    ),
+                                    sizedBox(),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      sizedBox(),
+                            )
+                          : Container(),
                     ],
                   ),
                 ),
                 Step(
                   isActive: _currentStep >= 2,
                   title: globalText(text: 'Login Information'),
-                  content: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      globalTextFormField(
-                        context: context,
-                        hint: 'Email Address',
-                      ),
-                      sizedBox(),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: globalTextFormField(
-                              context: context,
-                              hint: 'Password',
-                              textInputType: TextInputType.visiblePassword,
-                              textScaleFactor: 1.2,
-                              isObscure: !_isPasswordVisible,
-                              passwordVisibilityIconButton: IconButton(
-                                splashRadius: 0.1,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .color,
-                                onPressed: () => setState(
-                                  () =>
-                                      _isPasswordVisible = !_isPasswordVisible,
-                                ),
-                                icon: Icon(
-                                  _isPasswordVisible
-                                      ? Iconsax.eye
-                                      : Iconsax.eye_slash,
-                                ),
-                              ),
+                  content: Form(
+                    key: _loginInformationValidationKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        globalTextFormField(
+                          controller: emailController,
+                          context: context,
+                          hint: 'Email Address',
+                          textInputType: TextInputType.emailAddress,
+                          validator: (value) {
+                            bool isEmailValid = RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(value!);
+                            if (!isEmailValid) {
+                              return 'Invalid email';
+                            }
+                            if (value.isEmpty) {
+                              return 'Please enter email';
+                            }
+                            return null;
+                          },
+                        ),
+                        sizedBox(),
+                        globalTextFormField(
+                          controller: passwordController,
+                          context: context,
+                          hint: 'Password',
+                          textInputType: TextInputType.visiblePassword,
+                          textScaleFactor: 1.2,
+                          isObscure: !_isPasswordVisible,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
+                          passwordVisibilityIconButton: IconButton(
+                            splashRadius: 0.1,
+                            color:
+                                Theme.of(context).textTheme.bodyMedium!.color,
+                            onPressed: () => setState(
+                              () => _isPasswordVisible = !_isPasswordVisible,
+                            ),
+                            icon: Icon(
+                              _isPasswordVisible
+                                  ? Iconsax.eye
+                                  : Iconsax.eye_slash,
                             ),
                           ),
-                          sizedBox(width: 10, height: 0),
-                          Expanded(
-                            child: globalTextFormField(
-                              context: context,
-                              hint: 'Confirm Password',
-                              textInputType: TextInputType.visiblePassword,
-                              textScaleFactor: 1.2,
-                              isObscure: !_isPasswordVisible,
-                              passwordVisibilityIconButton: IconButton(
-                                splashRadius: 0.1,
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .color,
-                                onPressed: () => setState(
-                                  () =>
-                                      _isPasswordVisible = !_isPasswordVisible,
-                                ),
-                                icon: Icon(
-                                  _isPasswordVisible
-                                      ? Iconsax.eye
-                                      : Iconsax.eye_slash,
-                                ),
-                              ),
+                        ),
+                        sizedBox(),
+                        globalTextFormField(
+                          controller: confirmPasswordController,
+                          context: context,
+                          hint: 'Confirm Password',
+                          textInputType: TextInputType.visiblePassword,
+                          textScaleFactor: 1.2,
+                          isObscure: !_isPasswordVisible,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Required';
+                            }
+                            return null;
+                          },
+                          passwordVisibilityIconButton: IconButton(
+                            splashRadius: 0.1,
+                            color:
+                                Theme.of(context).textTheme.bodyMedium!.color,
+                            onPressed: () => setState(
+                              () => _isPasswordVisible = !_isPasswordVisible,
+                            ),
+                            icon: Icon(
+                              _isPasswordVisible
+                                  ? Iconsax.eye
+                                  : Iconsax.eye_slash,
                             ),
                           ),
-                        ],
-                      ),
-                      sizedBox(),
-                    ],
+                        ),
+                        sizedBox(),
+                      ],
+                    ),
                   ),
                 ),
                 Step(
@@ -329,25 +549,53 @@ class _CreateAccountDesktopState extends State<CreateAccountTablet> {
                       Row(
                         children: [
                           Expanded(
-                            flex: 4,
-                            child: globalTextFormField(
-                              context: context,
-                              hint: 'Access Code',
+                            child: Form(
+                              key: _accessCodeValidationKey,
+                              child: globalTextFormField(
+                                controller: accessCodeController,
+                                context: context,
+                                hint: 'Access Code',
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Required';
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: IconButton(
-                              tooltip: 'Check now',
-                              splashRadius: 24,
-                              icon: const Icon(Iconsax.search_status),
-                              onPressed: () {
-                                setState(() {
-                                  _isSubmitEnabled = true;
-                                });
-                              },
-                            ),
-                          ),
+                          _isCheckingAccessCode
+                              ? SpinKitCircle(
+                                  color: Theme.of(context).primaryColor,
+                                  size: 34,
+                                )
+                              : IconButton(
+                                  tooltip: 'Check now',
+                                  splashRadius: 24,
+                                  icon: const Icon(Iconsax.search_status),
+                                  onPressed: () async {
+                                    FocusScope.of(context).unfocus();
+                                    if (_accessCodeValidationKey.currentState!
+                                            .validate() ==
+                                        true) {
+                                      _isSubmitEnabled = false;
+                                      setState(
+                                          () => _isCheckingAccessCode = true);
+                                      if (await checkAccessCode(
+                                          accessCodeController.text.trim(),
+                                          context)) {
+                                        _isSubmitEnabled = true;
+                                      } else {
+                                        globalDialog(
+                                            context: context,
+                                            content:
+                                                '${accessCodeController.text} is not existing. \n please make sure you enter a correct and valid access code.');
+                                      }
+                                      setState(
+                                          () => _isCheckingAccessCode = false);
+                                    }
+                                  },
+                                ),
                         ],
                       ),
                       sizedBox(),
