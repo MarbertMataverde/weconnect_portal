@@ -58,12 +58,12 @@ Widget builderTextButton({
     child: TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
+        foregroundColor: Theme.of(context).primaryColor,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(2),
           ),
         ),
-        primary: Theme.of(context).primaryColor,
         backgroundColor: const Color(0xff323645),
       ),
       child: globalText(
