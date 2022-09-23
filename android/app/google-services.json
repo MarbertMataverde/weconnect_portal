@@ -31,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "247985629491-9bp4b6094cvu09tshioplornbhhbtr7f.apps.googleusercontent.com",
+              "client_id": "247985629491-45bchthrbj8lac3h69m9oqtgr9magml9.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "edu.portal.urs.weconnect.weconnectUrsPortal"
+                "bundle_id": "com.example.weconnectPortal"
               }
             }
           ]
