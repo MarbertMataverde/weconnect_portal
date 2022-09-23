@@ -34,8 +34,7 @@ Future<dynamic> globalDialog({
             sizedBox(),
             TextButton(
               style: TextButton.styleFrom(
-                primary: Theme.of(context).primaryColor,
-                backgroundColor: const Color(0xff323645),
+                foregroundColor: Theme.of(context).primaryColor, backgroundColor: const Color(0xff323645),
               ),
               onPressed: onPressed ?? () => Navigator.pop(context),
               child: globalText(
