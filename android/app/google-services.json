@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "247985629491",
-    "project_id": "weconnect-f6cb7",
-    "storage_bucket": "weconnect-f6cb7.appspot.com"
+    "project_number": "549730627206",
+    "project_id": "weconnect-3d518",
+    "storage_bucket": "weconnect-3d518.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:247985629491:android:95a6f3b48d5a96ea2ab646",
+        "mobilesdk_app_id": "1:549730627206:android:f10bb924f000f8981c2b07",
         "android_client_info": {
           "package_name": "com.example.weconnect_portal"
         }
       },
       "oauth_client": [
         {
-          "client_id": "247985629491-ab1e4k7vh7md4thrnu07cjbglo3o7elu.apps.googleusercontent.com",
+          "client_id": "549730627206-nqdco4nf0fj6rggb0beml41g9mfuo8v9.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBl1PcNEWJhtVxmQUrdm4-pzbdgTjdZD60"
+          "current_key": "AIzaSyAJQoOtcUaE4vCkx6o_D6xXqvtJxfdDzZo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "247985629491-ab1e4k7vh7md4thrnu07cjbglo3o7elu.apps.googleusercontent.com",
+              "client_id": "549730627206-nqdco4nf0fj6rggb0beml41g9mfuo8v9.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "247985629491-9bp4b6094cvu09tshioplornbhhbtr7f.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "edu.portal.urs.weconnect.weconnectUrsPortal"
-              }
             }
           ]
         }
