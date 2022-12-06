@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:549730627206:android:f10bb924f000f8981c2b07",
+        "mobilesdk_app_id": "1:549730627206:android:85ac8de23c5c25bf1c2b07",
         "android_client_info": {
           "package_name": "com.example.weconnect_portal"
         }
@@ -29,6 +29,13 @@
             {
               "client_id": "549730627206-nqdco4nf0fj6rggb0beml41g9mfuo8v9.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "549730627206-3eiiijsubnv5eik4m2k5ln2ddi8bj3b6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.weconnectPortal"
+              }
             }
           ]
         }

@@ -23,9 +23,15 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -45,39 +51,19 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyCxv8BjaeG5X_xeNkaLN32KM97BBptBVKg',
-    appId: '1:549730627206:web:ac5a47dc9b4b01071c2b07',
+    appId: '1:549730627206:web:082406475aceed251c2b07',
     messagingSenderId: '549730627206',
     projectId: 'weconnect-3d518',
     authDomain: 'weconnect-3d518.firebaseapp.com',
     storageBucket: 'weconnect-3d518.appspot.com',
-    measurementId: 'G-0CBBBQZE76',
+    measurementId: 'G-VZPBSLSMB3',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAJQoOtcUaE4vCkx6o_D6xXqvtJxfdDzZo',
-    appId: '1:549730627206:android:f10bb924f000f8981c2b07',
+    appId: '1:549730627206:android:85ac8de23c5c25bf1c2b07',
     messagingSenderId: '549730627206',
     projectId: 'weconnect-3d518',
     storageBucket: 'weconnect-3d518.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDlCdUBFxgiR2t6Q1eIPzmRi2WBRN0OPhk',
-    appId: '1:549730627206:ios:a1158cecea9935f41c2b07',
-    messagingSenderId: '549730627206',
-    projectId: 'weconnect-3d518',
-    storageBucket: 'weconnect-3d518.appspot.com',
-    iosClientId: '549730627206-3eiiijsubnv5eik4m2k5ln2ddi8bj3b6.apps.googleusercontent.com',
-    iosBundleId: 'com.example.weconnectPortal',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDlCdUBFxgiR2t6Q1eIPzmRi2WBRN0OPhk',
-    appId: '1:549730627206:ios:a1158cecea9935f41c2b07',
-    messagingSenderId: '549730627206',
-    projectId: 'weconnect-3d518',
-    storageBucket: 'weconnect-3d518.appspot.com',
-    iosClientId: '549730627206-3eiiijsubnv5eik4m2k5ln2ddi8bj3b6.apps.googleusercontent.com',
-    iosBundleId: 'com.example.weconnectPortal',
   );
 }
