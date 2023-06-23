@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weconnect_portal/feature/forgot_password/view/view.dart';
+import 'package:weconnect_portal/features/forgot_password/view/view.dart';
 import 'package:weconnect_portal/responsive.dart';
 
 class ForgotPassword extends StatelessWidget {

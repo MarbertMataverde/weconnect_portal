@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:weconnect_portal/feature/create_account/widget/widget_controllerbuilder.dart';
+import 'package:weconnect_portal/features/create_account/widget/widget_controllerbuilder.dart';
 import 'package:weconnect_portal/global/widget/widget_global_dropdownbuttonformfield.dart';
 import 'package:weconnect_portal/global/widget/widget_global_sizedbox.dart';
 import 'package:weconnect_portal/global/widget/widget_global_text.dart';

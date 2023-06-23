@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:weconnect_portal/feature/create_account/widget/widget_controllerbuilder.dart';
+import 'package:weconnect_portal/features/create_account/widget/widget_controllerbuilder.dart';
 import 'package:weconnect_portal/global/widget/widget_global_appbar.dart';
 import 'package:weconnect_portal/global/widget/widget_global_dropdownbuttonformfield.dart';
 import 'package:weconnect_portal/global/widget/widget_global_sizedbox.dart';
@@ -36,14 +36,14 @@ List<String> _accountTypes = [
 /// Current [_accountTypes] selected item is Student
 String? _accountTypeSelectedItem = 'Account Type: Student';
 
-class CreateAccountPhone extends StatefulWidget {
-  const CreateAccountPhone({Key? key}) : super(key: key);
+class CreateAccountTablet extends StatefulWidget {
+  const CreateAccountTablet({Key? key}) : super(key: key);
 
   @override
-  State<CreateAccountPhone> createState() => _CreateAccountDesktopState();
+  State<CreateAccountTablet> createState() => _CreateAccountDesktopState();
 }
 
-class _CreateAccountDesktopState extends State<CreateAccountPhone> {
+class _CreateAccountDesktopState extends State<CreateAccountTablet> {
   @override
   void initState() {
     super.initState();
@@ -66,7 +66,7 @@ class _CreateAccountDesktopState extends State<CreateAccountPhone> {
                   horizontal: MediaQuery.of(context).size.width * 0.010),
               child: globalText(
                 text: 'Set up your WeConnect account',
-                textScaleFactor: 1.2,
+                textScaleFactor: 1.7,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -111,33 +111,43 @@ class _CreateAccountDesktopState extends State<CreateAccountPhone> {
                           globalTextFormField(
                               context: context, hint: 'Last Name'),
                           sizedBox(),
-                          globalTextFormField(
-                            context: context,
-                            hint: 'Adress',
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 4,
+                            child: globalTextFormField(
+                              context: context,
+                              hint: 'Adress',
+                            ),
                           ),
-                          sizedBox(),
-                          globalDropdownButtonFormField(
-                            context: context,
-                            hintText: 'Gender',
-                            value: _genderSelectedItem,
-                            items: _genders
-                                .map(
-                                  (gender) => DropdownMenuItem(
-                                    value: gender,
-                                    child: globalText(text: gender),
-                                  ),
-                                )
-                                .toList(),
-                            onChange: (gender) =>
-                                setState(() => _genderSelectedItem = gender),
+                          sizedBox(width: 10, height: 0),
+                          Expanded(
+                            flex: 1,
+                            child: globalDropdownButtonFormField(
+                              context: context,
+                              hintText: 'Gender',
+                              value: _genderSelectedItem,
+                              items: _genders
+                                  .map(
+                                    (gender) => DropdownMenuItem(
+                                      value: gender,
+                                      child: globalText(text: gender),
+                                    ),
+                                  )
+                                  .toList(),
+                              onChange: (gender) =>
+                                  setState(() => _genderSelectedItem = gender),
+                            ),
                           ),
                         ],
                       ),
                       sizedBox(),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
+                            flex: 4,
                             child: Container(
                               height: 50,
                               decoration: BoxDecoration(
@@ -145,30 +155,30 @@ class _CreateAccountDesktopState extends State<CreateAccountPhone> {
                                 borderRadius: BorderRadius.circular(2),
                               ),
                               child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'Birthdate:  ${_birthDate.month}-${_birthDate.day}-${_birthDate.year}',
-                                  ),
+                                child: Text(
+                                  'Birthdate:  ${_birthDate.month}-${_birthDate.day}-${_birthDate.year}',
                                 ),
                               ),
                             ),
                           ),
-                          IconButton(
-                            splashRadius: 24,
-                            icon: const Icon(Iconsax.calendar_1),
-                            onPressed: () async {
-                              DateTime? newBirthDate = await showDatePicker(
-                                helpText: 'Birthdate',
-                                context: context,
-                                initialDate: _birthDate,
-                                firstDate: DateTime(1940),
-                                lastDate: DateTime(2040),
-                              );
+                          Expanded(
+                            flex: 1,
+                            child: IconButton(
+                              splashRadius: 24,
+                              icon: const Icon(Iconsax.calendar_1),
+                              onPressed: () async {
+                                DateTime? newBirthDate = await showDatePicker(
+                                  helpText: 'Birthdate',
+                                  context: context,
+                                  initialDate: _birthDate,
+                                  firstDate: DateTime(1940),
+                                  lastDate: DateTime(2040),
+                                );
 
-                              if (newBirthDate == null) return;
-                              setState(() => _birthDate = newBirthDate);
-                            },
+                                if (newBirthDate == null) return;
+                                setState(() => _birthDate = newBirthDate);
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -207,30 +217,34 @@ class _CreateAccountDesktopState extends State<CreateAccountPhone> {
                             sizedBox(),
                           ],
                         ),
-                        child: Column(
+                        child: Row(
                           children: [
-                            globalTextFormField(
-                                context: context, hint: 'Student Number'),
-                            sizedBox(),
-                            globalDropdownButtonFormField(
-                              context: context,
-                              hintText: 'College',
-                              value: _collegeSelectedItem,
-                              items: _colleges
-                                  .map(
-                                    (college) => DropdownMenuItem(
-                                      value: college,
-                                      child: globalText(text: college),
-                                    ),
-                                  )
-                                  .toList(),
-                              onChange: (college) => setState(
-                                  () => _collegeSelectedItem = college),
+                            Expanded(
+                              child: globalTextFormField(
+                                  context: context, hint: 'Student Number'),
                             ),
-                            sizedBox(),
+                            sizedBox(width: 10, height: 0),
+                            Expanded(
+                              child: globalDropdownButtonFormField(
+                                context: context,
+                                hintText: 'College',
+                                value: _collegeSelectedItem,
+                                items: _colleges
+                                    .map(
+                                      (college) => DropdownMenuItem(
+                                        value: college,
+                                        child: globalText(text: college),
+                                      ),
+                                    )
+                                    .toList(),
+                                onChange: (college) => setState(
+                                    () => _collegeSelectedItem = college),
+                              ),
+                            ),
                           ],
                         ),
                       ),
+                      sizedBox(),
                     ],
                   ),
                 ),
@@ -245,44 +259,60 @@ class _CreateAccountDesktopState extends State<CreateAccountPhone> {
                         hint: 'Email Address',
                       ),
                       sizedBox(),
-                      globalTextFormField(
-                        context: context,
-                        hint: 'Password',
-                        textInputType: TextInputType.visiblePassword,
-                        textScaleFactor: 1.2,
-                        isObscure: !_isPasswordVisible,
-                        passwordVisibilityIconButton: IconButton(
-                          splashRadius: 0.1,
-                          color: Theme.of(context).textTheme.bodyMedium!.color,
-                          onPressed: () => setState(
-                            () => _isPasswordVisible = !_isPasswordVisible,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: globalTextFormField(
+                              context: context,
+                              hint: 'Password',
+                              textInputType: TextInputType.visiblePassword,
+                              textScaleFactor: 1.2,
+                              isObscure: !_isPasswordVisible,
+                              passwordVisibilityIconButton: IconButton(
+                                splashRadius: 0.1,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .color,
+                                onPressed: () => setState(
+                                  () =>
+                                      _isPasswordVisible = !_isPasswordVisible,
+                                ),
+                                icon: Icon(
+                                  _isPasswordVisible
+                                      ? Iconsax.eye
+                                      : Iconsax.eye_slash,
+                                ),
+                              ),
+                            ),
                           ),
-                          icon: Icon(
-                            _isPasswordVisible
-                                ? Iconsax.eye
-                                : Iconsax.eye_slash,
+                          sizedBox(width: 10, height: 0),
+                          Expanded(
+                            child: globalTextFormField(
+                              context: context,
+                              hint: 'Confirm Password',
+                              textInputType: TextInputType.visiblePassword,
+                              textScaleFactor: 1.2,
+                              isObscure: !_isPasswordVisible,
+                              passwordVisibilityIconButton: IconButton(
+                                splashRadius: 0.1,
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .color,
+                                onPressed: () => setState(
+                                  () =>
+                                      _isPasswordVisible = !_isPasswordVisible,
+                                ),
+                                icon: Icon(
+                                  _isPasswordVisible
+                                      ? Iconsax.eye
+                                      : Iconsax.eye_slash,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                      sizedBox(),
-                      globalTextFormField(
-                        context: context,
-                        hint: 'Confirm Password',
-                        textInputType: TextInputType.visiblePassword,
-                        textScaleFactor: 1.2,
-                        isObscure: !_isPasswordVisible,
-                        passwordVisibilityIconButton: IconButton(
-                          splashRadius: 0.1,
-                          color: Theme.of(context).textTheme.bodyMedium!.color,
-                          onPressed: () => setState(
-                            () => _isPasswordVisible = !_isPasswordVisible,
-                          ),
-                          icon: Icon(
-                            _isPasswordVisible
-                                ? Iconsax.eye
-                                : Iconsax.eye_slash,
-                          ),
-                        ),
+                        ],
                       ),
                       sizedBox(),
                     ],
@@ -299,20 +329,24 @@ class _CreateAccountDesktopState extends State<CreateAccountPhone> {
                       Row(
                         children: [
                           Expanded(
+                            flex: 4,
                             child: globalTextFormField(
                               context: context,
                               hint: 'Access Code',
                             ),
                           ),
-                          IconButton(
-                            tooltip: 'Check now',
-                            splashRadius: 24,
-                            icon: const Icon(Iconsax.search_status),
-                            onPressed: () {
-                              setState(() {
-                                _isSubmitEnabled = true;
-                              });
-                            },
+                          Expanded(
+                            flex: 1,
+                            child: IconButton(
+                              tooltip: 'Check now',
+                              splashRadius: 24,
+                              icon: const Icon(Iconsax.search_status),
+                              onPressed: () {
+                                setState(() {
+                                  _isSubmitEnabled = true;
+                                });
+                              },
+                            ),
                           ),
                         ],
                       ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:weconnect_portal/feature/authentication/model/model_sign_in.dart';
-import 'package:weconnect_portal/feature/login/widget/widget_login_textbutton.dart';
-import 'package:weconnect_portal/feature/login/widget/widget_login_textformfield.dart';
-import 'package:weconnect_portal/feature/login/widget/widget_svg.dart';
+import 'package:weconnect_portal/features/authentication/model/model_sign_in.dart';
+import 'package:weconnect_portal/features/login/widget/widget_login_textbutton.dart';
+import 'package:weconnect_portal/features/login/widget/widget_login_textformfield.dart';
+import 'package:weconnect_portal/features/login/widget/widget_svg.dart';
 import 'package:weconnect_portal/global/widget/widget_global_sizedbox.dart';
 import 'package:weconnect_portal/global/widget/widget_global_text.dart';
 import 'package:weconnect_portal/global/widget/widget_global_textbutton.dart';

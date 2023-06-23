@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weconnect_portal/feature/create_account/view/view.dart';
+import 'package:weconnect_portal/features/create_account/view/view.dart';
 import 'package:weconnect_portal/responsive.dart';
 
 class CreateAccount extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:weconnect_portal/feature/login/view/veiw.dart';
+import 'package:weconnect_portal/features/login/view/veiw.dart';
 import 'package:weconnect_portal/responsive.dart';
 
 class Login extends StatelessWidget {
