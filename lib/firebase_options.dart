@@ -51,17 +51,17 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyCxv8BjaeG5X_xeNkaLN32KM97BBptBVKg',
-    appId: '1:549730627206:web:082406475aceed251c2b07',
+    appId: '1:549730627206:web:fdfa22f76a8b696d1c2b07',
     messagingSenderId: '549730627206',
     projectId: 'weconnect-3d518',
     authDomain: 'weconnect-3d518.firebaseapp.com',
     storageBucket: 'weconnect-3d518.appspot.com',
-    measurementId: 'G-VZPBSLSMB3',
+    measurementId: 'G-QRYWXHBKRY',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAJQoOtcUaE4vCkx6o_D6xXqvtJxfdDzZo',
-    appId: '1:549730627206:android:85ac8de23c5c25bf1c2b07',
+    appId: '1:549730627206:android:a45d8031c84b2ec21c2b07',
     messagingSenderId: '549730627206',
     projectId: 'weconnect-3d518',
     storageBucket: 'weconnect-3d518.appspot.com',
